@@ -1,4 +1,4 @@
-from data import Data
+from _main_ import Data
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 
