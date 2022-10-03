@@ -1,5 +1,5 @@
 import traceback
-from data import Data
+from _main_ import Data
 from pyrogram import Client
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
 from StringGenBot.generate import generate_session, ask_ques, buttons_ques
