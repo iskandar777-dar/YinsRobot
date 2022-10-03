@@ -1,4 +1,4 @@
-from data import Data
+from _main_ import Data
 from pyrogram.types import Message
 from telethon import TelegramClient
 from pyrogram import Client, filters
