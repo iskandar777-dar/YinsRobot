@@ -101,6 +101,9 @@ buttons = [
         InlineKeyboardButton(text="ʜᴇʟᴘ ᴍᴜsɪᴄ", callback_data="source_"),  
     ],
     [
+        InlineKeyboardButton(text="ɢᴇɴᴇʀᴀᴛᴇ sᴛʀɪɴɢ", callback_data="Data"),
+    ],
+    [
         InlineKeyboardButton(text="ᴀʙᴏᴜᴛ sᴏᴍᴇᴅ ʀᴏʙᴏᴛ", callback_data="yins_"),
     ],
 ]
@@ -172,6 +175,27 @@ def send_help(chat_id, text, keyboard=None):
         disable_web_page_preview=True,
         reply_markup=keyboard,
     )
+    
+from pyrogram.types import InlineKeyboardButton
+
+class Data:
+    generate_single_button = [InlineKeyboardButton(" Gёпёяатё $тяїпg ", callback_data="generate")]
+
+    generate_button = [generate_single_button]
+
+    buttons = [
+        generate_single_button,
+        [
+         InlineKeyboardButton(" sᴜᴩᴩᴏʀᴛ ", url="https://t.me/somedsupport"),
+         InlineKeyboardButton(" ᴅᴇᴠᴇʟᴏᴩᴇʀ ", url="https://t.me/kenapatagdar"),
+        ],
+    ]
+    
+    START = """
+Selamat datang {}
+Bot ini Bekerja Untuk Mendapatkan String Session Via Bot.
+By @kenapatagdar
+    """
 
 
 def test(update: Update, context: CallbackContext):
