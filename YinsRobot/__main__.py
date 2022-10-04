@@ -101,7 +101,7 @@ buttons = [
         InlineKeyboardButton(text="ʜᴇʟᴘ ᴍᴜsɪᴄ", callback_data="source_"),  
     ],
     [
-        InlineKeyboardButton(text="ɢᴇɴᴇʀᴀᴛᴇ sᴛʀɪɴɢ", callback_data="Data"),
+        InlineKeyboardButton(text="ɢᴇɴᴇʀᴀᴛᴇ sᴛʀɪɴɢ", callback_data="home"),
     ],
     [
         InlineKeyboardButton(text="ᴀʙᴏᴜᴛ sᴏᴍᴇᴅ ʀᴏʙᴏᴛ", callback_data="yins_"),
@@ -176,26 +176,6 @@ def send_help(chat_id, text, keyboard=None):
         reply_markup=keyboard,
     )
     
-from pyrogram.types import InlineKeyboardButton
-
-class Data:
-    generate_single_button = [InlineKeyboardButton(" Gёпёяатё $тяїпg ", callback_data="generate")]
-
-    generate_button = [generate_single_button]
-
-    buttons = [
-        generate_single_button,
-        [
-         InlineKeyboardButton(" sᴜᴩᴩᴏʀᴛ ", url="https://t.me/somedsupport"),
-         InlineKeyboardButton(" ᴅᴇᴠᴇʟᴏᴩᴇʀ ", url="https://t.me/kenapatagdar"),
-        ],
-    ]
-    
-    START = """
-Selamat datang {}
-Bot ini Bekerja Untuk Mendapatkan String Session Via Bot.
-By @kenapatagdar
-    """
 
 
 def test(update: Update, context: CallbackContext):
@@ -599,6 +579,59 @@ def get_help(update: Update, context: CallbackContext):
 
     else:
         send_help(chat.id, HELP_STRINGS)
+      
+import traceback
+from pyrogram import Client
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
+
+
+# Callbacks
+@Client.on_callback_query()
+async def _callbacks(bot: Client, callback_query: CallbackQuery):
+    user = bot.get_me()
+    # user_id = callback_query.from_user.id
+    mention = user.mention
+    query = callback_query.data.lower()
+    if query.startswith("home"):
+        if query == 'home':
+            chat_id = callback_query.from_user.id
+            message_id = callback_query.message.id
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text=Data.START.format(callback_query.from_user.mention, mention),
+                reply_markup=InlineKeyboardMarkup(Data.buttons),
+            )
+    elif query == "generate":
+        callback_query.answer()
+        callback_query.message.reply(ask_ques, reply_markup=InlineKeyboardMarkup(buttons_ques))
+    elif query.startswith("pyrogram") or query.startswith("telethon"):
+        try:
+            if query == "pyrogram":
+                 callback_query.answer("» ᴛʜᴇ ᴩʏʀᴏɢʀᴀᴍ ᴠ2 sᴛʀɪɴɢ sᴇssɪᴏɴ ᴡɪʟʟ ᴏɴʟʏ ᴡᴏʀᴋ ɪɴ ᴛʜᴇ ʙᴏᴛ's ᴡʜɪᴄʜ ᴀʀᴇ ᴜᴩɢʀᴀᴅᴇᴅ ᴀᴛ ᴩʏʀᴏɢʀᴀᴍ ᴠ2 !", show_alert=True)
+                 generate_session(bot, callback_query.message)
+            elif query == "pyrogram1":
+                 callback_query.answer()
+                 generate_session(bot, callback_query.message, old_pyro=True)
+            elif query == "pyrogram_bot":
+                 callback_query.answer("» ᴛʜᴇ sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴇᴅ ᴡɪʟʟ ʙᴇ ᴏғ ᴩʏʀᴏɢʀᴀᴍ ᴠ2.", show_alert=True)
+                 generate_session(bot, callback_query.message, is_bot=True)
+            elif query == "telethon_bot":
+                 callback_query.answer()
+                 generate_session(bot, callback_query.message, telethon=True, is_bot=True)
+            elif query == "telethon":
+                 callback_query.answer()
+                 generate_session(bot, callback_query.message, telethon=True)
+        except Exception as e:
+            print(traceback.format_exc())
+            print(e)
+            callback_query.message.reply(ERROR_MESSAGE.format(str(e)))
+
+
+ERROR_MESSAGE = "ᴡᴛғ ! sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ. \n\n**ᴇʀʀᴏʀ** : {} " \
+            "\n\n**ᴩʟᴇᴀsᴇ ғᴏʀᴡᴀʀᴅ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴛᴏ @kenapatagdar**, ɪғ ᴛʜɪs ᴍᴇssᴀɢᴇ " \
+            "ᴅᴏᴇsɴ'ᴛ ᴄᴏɴᴛᴀɪɴ ᴀɴʏ sᴇɴsɪᴛɪᴠᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ " \
+            "ʙᴇᴄᴀᴜsᴇ ᴛʜɪs ᴇʀʀᴏʀ ɪs **ɴᴏᴛ ʟᴏɢɢᴇᴅ ʙʏ ᴛʜᴇ ʙᴏᴛ** !"
 
 
 def send_settings(chat_id, user_id, user=False):
